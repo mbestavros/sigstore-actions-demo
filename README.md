@@ -1,4 +1,4 @@
-# Next! Demo Steps
+Demo Steps
 
 Configure policy
 
