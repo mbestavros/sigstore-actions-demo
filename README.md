@@ -2,6 +2,12 @@
 
 ## Install kind
 
+https://kind.sigs.k8s.io/docs/user/quick-start/#installation
+
+## Install helm
+
+https://helm.sh/docs/intro/install/
+
 ```bash
 kind create cluster --name sigstore-demo --config manifests/kind-config.yaml
 ```
