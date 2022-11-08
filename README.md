@@ -1,6 +1,22 @@
-Demo Steps
+# Demo Steps
 
-Configure policy
+## Install kind
+
+```bash
+kind create cluster --name sigstore-demo --config manifests/kind-config.yaml
+```
+
+```bash
+helm repo add kyverno https://kyverno.github.io/kyverno/
+helm repo update
+```
+
+```bash
+helm install kyverno kyverno/kyverno -n next-demo --create-namespace
+```
+
+## Configure policy
+
 
 ```bash
 kubectl apply -f manifests/imagePolicy.yaml --namespace next-demo
@@ -18,7 +34,7 @@ Run good image, runs
 kubectl run good-image --image=ghcr.io/lukehinds/redhat-next-security-demo:main
 ```
 
-Delete image
+## Delete image
 
 ```bash
 kubectl delete pod good-image --now
@@ -42,10 +58,10 @@ Run good image, runs
 kubectl run good-image --image=ghcr.io/lukehinds/redhat-next-security-demo:main
 ```
 
-Sign with podman
+## Sign with cosign
 
 ```bash
-podman sign ghcr.io/lukehinds/redhat-next-security-demo:mai
+cosign sign ghcr.io/lukehinds/redhat-next-security-demo:main
 ```
 
 Look up signature and cert in rekor and set 
@@ -58,7 +74,7 @@ logindex=12345
 rekor-cli get --log-index 3482746 --format=json | jq ".Body | .HashedRekordObj | .signature | .publicKey | .content" | cut -d '"' -f2 | base64 -D
 ```
 
-Show certificate
+## Show certificate
 
 ```bash
 openssl x509 -in cert.pem -text
