@@ -1,0 +1,9 @@
+name: sigstore-demo
+
+image:
+  repository: ghcr.io/lukehinds/cosign-demo
+  tag: main
+  pullPolicy: Always
+
+annotations: {}
+podAnnotations: {}
