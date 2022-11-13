@@ -3,17 +3,17 @@
 ########################
 # include the magic
 ########################
-. ~/bin/demo-magic.sh
+. ~/source/user-apps/demo-magic/demo-magic.sh
 
 DEMO_PROMPT="${GREEN}➜ ${CYAN}\W "
 
 clear
 
-pei "# log_id from GitHub Action"
+pei "# set log_id from GitHub Action"
 
 cmd
 
-pe "rekor-cli get --log-index=$log_id --format=json | jq \".Body | .HashedRekordObj | .signature | .publicKey | .content\" | cut -d '\"' -f2 | base64 -D > cert-action.pem"
+pe "rekor-cli get --log-index=$log_id --format=json | jq \".Body | .HashedRekordObj | .signature | .publicKey | .content\" | cut -d '\"' -f2 | base64 -d > cert-action.pem"
 
 pe "openssl x509 -in cert-action.pem -text -noout"
 
