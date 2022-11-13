@@ -13,7 +13,7 @@ pei "# log_id from GitHub Action"
 
 cmd
 
-pe "rekor-cli get --log-index=$log_id --format=json | jq \".Body | .HashedRekordObj | .signature | .publicKey | .content\" | cut -d '\"' -f2 | base64 -D > cert-action.pem"
+pe "rekor-cli get --log-index=$log_id --format=json | jq \".Body | .HashedRekordObj | .signature | .publicKey | .content\" | cut -d '\"' -f2 | base64 -d > cert-action.pem"
 
 pe "openssl x509 -in cert-action.pem -text -noout"
 
@@ -31,22 +31,25 @@ pe "kubectl get pod good-image"
 
 pe "kubectl delete pod good-image"
 
-pe "tail -n 30 manifests/imagePolicy-email.yaml"
+pe "tail -n 28 manifests/imagePolicy-email.yaml"
 
 pe "kubectl apply -f manifests/imagePolicy-email.yaml --namespace next-demo"
 
-pe "kubectl run good-image --image=ghcr.io/lukehinds/redhat-next-security-demo:main"
+# Note that the image URL here must be an unsigned container for this to fail (by signing it with cosign we get it to pass)
+pe "kubectl run good-image --image=ghcr.io/lukehinds/redhat-next-security-demo-unsigned:main"
 
-pe "podman sign ghcr.io/lukehinds/redhat-next-security-demo:main"
+# Sign the same, unsigned container
+pe "cosign sign ghcr.io/lukehinds/redhat-next-security-demo-unsigned:main"
 
-p "# log_id from email"
+p "# log_id from cosign"
 
 cmd
 
-pe "rekor-cli get --log-index=$log_id --format=json | jq \".Body | .HashedRekordObj | .signature | .publicKey | .content\" | cut -d '\"' -f2 | base64 -D > cert-email.pem"
+pe "rekor-cli get --log-index=$log_id --format=json | jq \".Body | .HashedRekordObj | .signature | .publicKey | .content\" | cut -d '\"' -f2 | base64 -d > cert-email.pem"
 
 pe "openssl x509 -in cert-email.pem -text -noout"
 
+# Again, use the same URL for the (now signed with email) container
 pe "kubectl run good-image --image=ghcr.io/lukehinds/redhat-next-security-demo:main"
 
 pe "kubectl delete pod good-image"
