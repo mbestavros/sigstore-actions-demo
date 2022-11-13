@@ -37,7 +37,7 @@ pe "kubectl apply -f manifests/imagePolicy-email.yaml --namespace next-demo"
 
 pe "kubectl run good-image --image=ghcr.io/mbestavros/redhat-day-security-demo:main"
 
-pe "podman sign ghcr.io/lukehinds/redhat-next-security-demo:main"
+pe "podman sign ghcr.io/mbestavros/redhat-day-security-demo:main"
 
 p "# log_id from email"
 
@@ -47,6 +47,6 @@ pe "rekor-cli get --log-index=$log_id --format=json | jq \".Body | .HashedRekord
 
 pe "openssl x509 -in cert-email.pem -text -noout"
 
-pe "kubectl run good-image --image=ghcr.io/lukehinds/redhat-next-security-demo:main"
+pe "kubectl run good-image --image=ghcr.io/mbestavros/redhat-day-security-demo:main"
 
 pe "kubectl delete pod good-image"
