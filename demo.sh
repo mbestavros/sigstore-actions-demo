@@ -25,7 +25,7 @@ pe "kubectl run bad-image --image=ghcr.io/lukehinds/blackhat-next-security-demo:
 
 pe "kubectl run nginx --image=nginx:latest"
 
-pe "kubectl run good-image --image=ghcr.io/lukehinds/redhat-next-security-demo:main"
+pe "kubectl run good-image --image=ghcr.io/mbestavros/redhat-day-security-demo:main"
 
 pe "kubectl get pod good-image"
 
@@ -35,7 +35,7 @@ pe "tail -n 30 manifests/imagePolicy-email.yaml"
 
 pe "kubectl apply -f manifests/imagePolicy-email.yaml --namespace next-demo"
 
-pe "kubectl run good-image --image=ghcr.io/lukehinds/redhat-next-security-demo:main"
+pe "kubectl run good-image --image=ghcr.io/mbestavros/redhat-day-security-demo:main"
 
 pe "podman sign ghcr.io/lukehinds/redhat-next-security-demo:main"
 
