@@ -21,6 +21,13 @@ helm repo update
 helm install kyverno kyverno/kyverno -n next-demo --create-namespace
 ```
 
+## Restart cluster if stopped
+
+```bash
+podman start sigstore-demo-control-plane
+podman start sigstore-demo-worker
+```
+
 ## Configure policy
 
 
@@ -46,7 +53,7 @@ kubectl run good-image --image=ghcr.io/lukehinds/redhat-next-security-demo:main
 kubectl delete pod good-image --now
 ```
 
-Add lhinds@redhat.com to policy, and apply config 
+Add lhinds@redhat.com to policy, and apply config
 
 ```yaml
 - keyless:
@@ -70,7 +77,7 @@ kubectl run good-image --image=ghcr.io/lukehinds/redhat-next-security-demo:main
 cosign sign ghcr.io/lukehinds/redhat-next-security-demo:main
 ```
 
-Look up signature and cert in rekor and set 
+Look up signature and cert in rekor and set
 
 ```bash
 logindex=12345
@@ -91,4 +98,3 @@ Run good image, runs
 ```bash
 kubectl run good-image --image=ghcr.io/lukehinds/redhat-next-security-demo:main
 ```
-
