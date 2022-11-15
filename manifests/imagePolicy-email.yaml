@@ -22,11 +22,7 @@ spec:
       - imageReferences:
         - "*"
         attestors:
-        - count: 2
-          entries:
-          - keyless:
-              issuer: "https://token.actions.githubusercontent.com"
-              subject: "https://github.com/mbestavros/redhat-day-security-demo/.github/workflows/*"
-          - keyless:
-              issuer: https://accounts.google.com
-              subject: "*@redhat.com"
+          - entries:
+            - keyless:
+                subject: "*@redhat.com"
+                issuer: "https://accounts.google.com"
