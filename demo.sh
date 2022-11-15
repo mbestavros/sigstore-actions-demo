@@ -37,13 +37,13 @@ pe "kubectl apply -f manifests/imagePolicy-email.yaml --namespace next-demo"
 
 pe "kubectl run good-image --image=ghcr.io/mbestavros/redhat-day-security-demo:main"
 
-pe "podman sign ghcr.io/mbestavros/redhat-day-security-demo:main"
+pe "cosign sign ghcr.io/mbestavros/redhat-day-security-demo:main"
 
 p "# log_id from email"
 
 cmd
 
-pe "rekor-cli get --log-index=$log_id --format=json | jq \".Body | .HashedRekordObj | .signature | .publicKey | .content\" | cut -d '\"' -f2 | base64 -D > cert-email.pem"
+pe "rekor-cli get --log-index=$log_id --format=json | jq \".Body | .HashedRekordObj | .signature | .publicKey | .content\" | cut -d '\"' -f2 | base64 -d > cert-email.pem"
 
 pe "openssl x509 -in cert-email.pem -text -noout"
 

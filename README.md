@@ -21,11 +21,19 @@ helm repo update
 helm install kyverno kyverno/kyverno -n next-demo --create-namespace
 ```
 
-## Restart cluster if stopped
+## Pre-demo reset steps
+
+Restart podman containers that are stopped:
 
 ```bash
 podman start sigstore-demo-control-plane
 podman start sigstore-demo-worker
+```
+
+Log in to ghcr.io:
+
+```bash
+podman login ghcr.io
 ```
 
 ## Configure policy
